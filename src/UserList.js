@@ -2,50 +2,71 @@ import React from 'react';
 import './style.scss'
 import './App.css';
 import axios from 'axios';
+import AddUser from './AddUser'
+import EditUser from './EditUser'
+import DeleteUser from './DeleteUser'
+
 
 class UserList extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      users:[]
+    this.state = {
+      users: [],
+      id: ''
     }
   }
-  componentDidMount(){
-       axios.get('http://192.168.2.65:3030/posts')
-      .then(response => {
-        //console.log(response.data.data[0].id);
+  componentDidMount() {
+    axios.get('http://192.168.2.65:3030/posts')
+    .then((response) =>response)
+    .then(response=>
         this.setState({
-          users:response.data.data
-        })
-        //console.log(this.state.users);
+        users:response.data.data
       })
-      .catch(function (error) {
-        console.log(error);
+  )
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  }
+  /*   handleClick = (userid,e) => {
+      console.log(e.target.name);
+      this.setState({
+        id: userid
       })
-      .finally(function () {
-      });
-}
-  render(){
-      return ( 
+    } */
+  render() {
+    return (
+
       <div className="userlist">
-                  
-                  <table>
-                  <tr>
-                    <th>ID</th>
-                    <th>SurName</th>
-                    <th>FirstName</th>
-                  </tr>
-                  { this.state.users.map(user => 
-                  <tr>
-                    <td>{user._id}</td>
-                    <td>{user.body}</td>
-                    <td>{user.title}</td>
-                  </tr>
-                  )}
-                  </table>
-                </div>
-              
-    )}
+        <AddUser />
+        <table>
+          <tbody>
+            <tr>
+            <th>ID</th>
+            <th>SurName</th>
+            <th>FirstName</th>
+            <th>Action</th>
+          </tr>
+          {this.state.users.map(user =>
+            <tr key={user._id}>
+              <td>{user._id}</td>
+              <td>{user.body}</td>
+              <td>{user.title}</td>
+              <td><EditUser id={user._id}/>
+                  <DeleteUser id={user._id}/>
+              </td>
+            </tr>
+          )}
+          </tbody>
+ s
+        </table>
+      </div>
+
+    )
+  }
 }
 
 export default UserList;

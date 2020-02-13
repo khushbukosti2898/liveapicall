@@ -3,7 +3,6 @@ import './App.css';
 import './style.scss'
 import Title from './title.js'
 import UserList from './UserList.js'
-import UserDetail from './userdetail';
 
 class App extends React.Component {
   state={
@@ -13,7 +12,7 @@ class App extends React.Component {
     this.setState({
       id:userid
     })
-  }
+  } 
   render(){
     return (
     <div className="App">
@@ -21,8 +20,7 @@ class App extends React.Component {
       <Title />
       <div className="content">
       <UserList updateId={this.updateId}/>
-{/*       <UserDetail  data={this.state}/>
- */}      </div>
+      </div>
       </div>
     </div>
   );
