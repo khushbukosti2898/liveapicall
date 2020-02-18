@@ -5,7 +5,7 @@ import './App.css';
 
 class Title extends React.Component {
   render(){
-      return ( <div className="title">LIVE API CALL</div>
+      return ( <h1>Simple CRUD API</h1>
   )}
 }
 

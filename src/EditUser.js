@@ -2,7 +2,9 @@ import React from 'react';
 import './style.scss'
 import './App.css';
 import axios from 'axios';
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Form } from 'react-bootstrap'
+import editlogo from './editlogo.png'
+
 
 
 class EditUser extends React.Component {
@@ -11,6 +13,9 @@ class EditUser extends React.Component {
     this.state = {
       users: [],
       showEdit: false,
+      title:props.title,
+      body:props.body,
+      id:props.id
     }
   }
 
@@ -18,15 +23,16 @@ class EditUser extends React.Component {
   editUser = (e) => {
     e.preventDefault()
     axios.put(`http://192.168.2.65:3030/posts/${this.props.id}`,
-      ({ title: this.state.title,
-        body:this.state.body
-       }))
+      ({
+        title: this.state.title,
+        body: this.state.body
+      }))
       .then(response => {
         console.log(response)
       })
       .then(
         this.setState({
-            showEdit:false
+          showEdit: false
         })
       )
       .catch(error => {
@@ -42,30 +48,35 @@ class EditUser extends React.Component {
 
   handleClose = () => {
     this.setState({
-        showEdit: false
+      showEdit: false
     })
   }
   render() {
-    const { showEdit } = this.state
+    const { showEdit,title, body, id } = this.state
     return (<>
-      <Button variant="primary" onClick={() => this.setState({ showEdit: true })}>
-       Edit
-      </Button>
+      <button onClick={() => this.setState({ showEdit: true })}>
+        <img className="imgclass" src={editlogo} alt="edit user" />
+      </button>
       <Modal show={showEdit} onHide={this.handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Id<input type="text" name="_id" readOnly value={this.props.id}></input><br></br>
-          SurName<input type="text" name="title" onChange={this.handleChange}></input><br></br>
-          FirstName<input type="text" name="body" onChange={this.handleChange}></input>
+          <Form.Group>
+            <Form.Label>Id</Form.Label>
+            <Form.Control type="text" name="_id" readOnly value={id} /><br />
+            <Form.Label>SurName</Form.Label>
+            <Form.Control type="text" placeholder="Enter Surname" value={title} name="title" onChange={this.handleChange} /><br />
+            <Form.Label>FirstName</Form.Label>
+            <Form.Control type="text" placeholder="Enter Firstname" value={body} name="body" onChange={this.handleChange} />
+          </Form.Group>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={this.handleClose}>
             Close
           </Button>
           <Button variant="primary" onClick={this.editUser}>
-            Save Changes
+            Edit
           </Button>
         </Modal.Footer>
       </Modal>

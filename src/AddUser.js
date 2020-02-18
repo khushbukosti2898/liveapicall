@@ -2,8 +2,8 @@ import React from 'react';
 import './style.scss'
 import './App.css';
 import axios from 'axios';
-import { Modal, Button } from 'react-bootstrap'
-
+import { Modal, Button, Form } from 'react-bootstrap';
+import addlogo from './Male-user-add-icon.png'
 
 class AddUser extends React.Component {
   constructor(props) {
@@ -17,15 +17,16 @@ class AddUser extends React.Component {
   addUser = (e) => {
     e.preventDefault()
     axios.post('http://192.168.2.65:3030/posts',
-      ({ title: this.state.title,
-        body:this.state.body
-       }))
+      ({
+        title: this.state.title,
+        body: this.state.body
+      }))
       .then(response => {
         console.log(response)
       })
       .then(
         this.setState({
-          showAdd:false
+          showAdd: false
         })
       )
       .catch(error => {
@@ -46,23 +47,27 @@ class AddUser extends React.Component {
   render() {
     const { showAdd } = this.state
     return (<>
-      <Button variant="primary" onClick={() => this.setState({ showAdd: true })}>
-        Add user
-      </Button>
+      <button onClick={() => this.setState({ showAdd: true })}>
+        <img className="imgclass" src={addlogo} alt="Add user" />        
+      </button>
       <Modal show={showAdd} onHide={this.handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Add User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          SurName<input type="text" name="title" onChange={this.handleChange}></input><br></br>
-          FirstName<input type="text" name="body" onChange={this.handleChange}></input>
+          <Form.Group>
+            <Form.Label>SurName</Form.Label>
+            <Form.Control type="text" placeholder="Enter Surname" name="title" onChange={this.handleChange} /><br/>
+            <Form.Label>FirstName</Form.Label>
+            <Form.Control type="text" placeholder="Enter Firstname" name="body" onChange={this.handleChange} />  
+          </Form.Group>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={this.handleClose}>
             Close
           </Button>
           <Button variant="primary" onClick={this.addUser}>
-            Save Changes
+           Add
           </Button>
         </Modal.Footer>
       </Modal>

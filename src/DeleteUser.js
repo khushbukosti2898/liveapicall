@@ -2,6 +2,7 @@ import React from 'react';
 import './style.scss'
 import './App.css';
 import axios from 'axios';
+import deletelogo from './deletelogo.png'
 import { Modal, Button } from 'react-bootstrap'
 
 
@@ -41,9 +42,9 @@ class EditUser extends React.Component {
   render() {
     const { showDelete } = this.state
     return (<>
-      <Button variant="primary" onClick={() => this.setState({ showDelete: true })}>
-       Delete
-      </Button>
+      <button onClick={() => this.setState({ showDelete: true })}>
+       <img className="imgclass" src={deletelogo} alt="delete user"/>
+      </button>
       <Modal show={showDelete} onHide={this.handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Delete User</Modal.Title>
